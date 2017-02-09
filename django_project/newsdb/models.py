@@ -18,7 +18,7 @@ class UnresolvedNewsType(models.Model):
 
 
 class ResolvedNewsType(models.Model):
-    resolved_news_type_name = models.CharField(max_length=250)
+    resolved_news_type_name = models.CharField(max_length=250, unique=True)
     unresolved_news_type_map = models.ManyToManyField(UnresolvedNewsType, blank=True,
                                                       null=True, related_name='type_name',
                                                       through='ResolvedNewsTypeUnresolvedNewsTypeMap')
@@ -109,11 +109,11 @@ class Source(models.Model):
 
 
 class ArticleDownload(models.Model):
-    article_download_local_file_path = models.CharField(max_length=250)
+    article_download_local_file_path = models.CharField(max_length=250, unique=True)
     article_download_created_date = models.DateTimeField(default=datetime.now)
     article_download_last_updated_date = models.DateTimeField(default=datetime.now)
-    article_download_url = models.CharField(max_length=250)
-    article_download_unique_id = models.CharField(max_length=250)
+    article_download_url = models.CharField(max_length=250, unique=True)
+    article_download_unique_id = models.CharField(max_length=250, unique=True)
     article_download_is_parsed = models.SmallIntegerField(max_length=1, default=0)
 
     def __str__(self):
@@ -131,13 +131,11 @@ class ArticleParsed(models.Model):
     unresolved_news_type = models.ForeignKey(UnresolvedNewsType,
                                              on_delete=models.DO_NOTHING)
     published_date = models.DateTimeField(default=datetime.now)
-    created_date = models.DateTimeField(default=datetime.now)
-    last_updated_date = models.DateTimeField(default=datetime.now)
     unresolved_location = models.ForeignKey(UnresolvedLocation,
                                             on_delete=models.DO_NOTHING)
     source = models.ForeignKey(Source, on_delete=models.DO_NOTHING)
     article_download = models.ForeignKey(ArticleDownload, 
-                                         on_delete=models.DO_NOTHING)
+                                         on_delete=models.DO_NOTHING, unique=True)
 
     def __str__(self):
         return self.article_title
@@ -151,7 +149,7 @@ class ArticleParsed(models.Model):
 
 class ArticleContent(models.Model):
     article_parsed = models.ForeignKey(ArticleParsed, 
-                                       on_delete=models.DO_NOTHING)
+                                       on_delete=models.DO_NOTHING, unique=True)
     content = models.TextField()
 
     def __str__(self):
@@ -167,7 +165,7 @@ class ArticleContent(models.Model):
 class Author(models.Model):
     author_name = models.CharField(max_length=250)
     article_parsed = models.ForeignKey(ArticleParsed, 
-                                       on_delete=models.DO_NOTHING)
+                                       on_delete=models.DO_NOTHING, unique=True)
 
     def __str__(self):
         return self.author_name
