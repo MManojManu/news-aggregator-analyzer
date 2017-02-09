@@ -1,10 +1,10 @@
 /*creates a database or if it already exists it uses*/
 
-CREATE DATABASE IF NOT EXISTS `hindu`;
+CREATE DATABASE IF NOT EXISTS `newsdb`;
 
 /*use the database*/
 
-use `hindu`;
+use `newsdb`;
 
 /*creating a table resolved_news_type*/
 
