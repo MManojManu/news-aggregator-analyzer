@@ -73,11 +73,9 @@ class ArticleDownloadAdmin(admin.ModelAdmin):
 class ArticleParsedAdmin(admin.ModelAdmin):
 
     fields = ['article_title', 'unresolved_news_type',
-              'published_date', 'created_date', 'last_updated_date',
-              'unresolved_location', 'source', 'article_download']
+              'published_date', 'unresolved_location', 'source', 'article_download']
     list_display = ['article_title', 'unresolved_news_type', 'published_date',
-                    'created_date', 'last_updated_date', 'unresolved_location',
-                    'source', 'article_download', ]
+                    'unresolved_location', 'source', 'article_download', ]
     list_filter = ['source', 'unresolved_news_type', 'unresolved_location', ]
 
 
