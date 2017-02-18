@@ -8,8 +8,6 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_project.settings')
 django.setup()
 from newsdb.models import *
 
-
-	
 class NewsParser():
 	article_id_count_int=1
 	article_inserting_count_int=1
@@ -23,7 +21,7 @@ class NewsParser():
 			self.article_id_count_int+=1
 		return article_local_directory_path_list
 	
-	
+	#Hardcoding The Hindu news source
 	def process_article_source(self):
 		self.fk_source_id_int=0	
 		article_source_check=Source.objects.filter(source_name='The Hindu')
