@@ -41,12 +41,16 @@ class NewsParser():
 		
 			article_page_content=BeautifulSoup(open(local_file_path,'r'))
 			article_div_tag=article_page_content.find_all("div",attrs={"id":re.compile('content\-body\-14269002\-[0-9]*')})
-		
+			if article_div_tag==[]:
+				article_div_tag=article_page_content.find_all("div",attrs={"id":re.compile('content\-body\-17088308\-[0-9]*')})	
+			
 			if article_div_tag==[]:
 				print "Article skipped because no body content" ,local_file_path
 				print "*******************************************************************************"
 			else:
 				for div in article_div_tag:
+					for tag in div.find_all('a'):
+						tag.decompose()
 					links = div.findAll('p')
 					links=BeautifulSoup(str(links)).get_text(' ',strip=True)
 					main_each_article_content=links
@@ -89,7 +93,7 @@ class NewsParser():
 						if  article_section_str[0].lower() =='sport':
 							unresolved_article_section_str=''
 							unresolved_article_section_str=article_section_str[0].title()
-						elif str(article_author_str[0]).lower() in article_section_str[0].lower():
+						if str(article_author_str[0]).lower() in article_section_str[0].lower():
 							unresolved_article_section_str="Unknown"
 						else:
 							unresolved_article_section_str=''
@@ -103,7 +107,7 @@ class NewsParser():
 				
 				if article_title_str is None:
 					article_title_str=article_page_content.title.text
-					article_title_str=article_title_str.replace(" - The Hindu",'')
+					article_title_str=article_title_str.replace(" - The Hindu",'').replace(" - Sportstarlive",'')
 					if article_title_str=='The Sunday Crossword':
 						continue
 					else:
@@ -120,8 +124,18 @@ class NewsParser():
 						article_title_str=str(article_title_str);			
 						article_title_str=unicode(str(article_title_str),"utf-8")
 						article_title_str=unicodedata.normalize('NFKD', article_title_str).encode('ascii','ignore')
-				article_location = article_page_content.find("span",  {'class':'blue-color ksl-time-stamp'}).text.strip()
-				article_location_str=article_location if article_location else "Unknown"
+				article_location = article_page_content.find("span",  {'class':'blue-color ksl-time-stamp'})
+				if article_location is None:
+					article_location = article_page_content.find("h4",  {'class':'home-content-name'})
+					if article_location is None:
+						article_location_str=article_location if article_location else "Unknown"
+					else:
+						article_location=article_location.text.strip()
+						article_location_str=article_location if article_location else "Unknown"
+				else:
+					article_location=article_location.text.strip()
+					article_location_str=article_location if article_location else "Unknown"
+					
 				article_location_str=article_location_str.title().replace(":",'')
 				article_location_str=article_location_str.title().replace(",",'')
 				
