@@ -9,16 +9,14 @@ django.setup()
 from newsdb.models import *
 
 class NewsParser():
-	article_id_count_int=1
-	article_inserting_count_int=1
-	total_article_count_list=ArticleDownload.objects.all()
+	
 	fk_source_id_int=0
 	def get_article_local_file_path(self):
+		total_article_count_list=[]
 		article_local_directory_path_list=[]
-		while self.article_id_count_int <= self.total_article_count_list.count():
-			article_url_obj=ArticleDownload.objects.get(id=self.article_id_count_int)
-			article_local_directory_path_list.append(article_url_obj.article_download_local_file_path)
-			self.article_id_count_int+=1
+		total_article_count_list=ArticleDownload.objects.all().filter(article_download_is_parsed=0)
+		for each_download_article in total_article_count_list:
+			article_local_directory_path_list.append(each_download_article.article_download_local_file_path)
 		return article_local_directory_path_list
 	
 	#Hardcoding The Hindu news source
@@ -37,7 +35,7 @@ class NewsParser():
 		article_local_file_path=self.get_article_local_file_path()
 	
 		for local_file_path in article_local_file_path:
-			
+			print "local file path:",local_file_path
 			article_download_id=ArticleDownload.objects.get(article_download_local_file_path=local_file_path)
 			fk_article_downlaod_id_int=article_download_id.id
 		
@@ -67,7 +65,7 @@ class NewsParser():
 					if str(article_author_str[0]).lower() in str(article_section_str[0]).lower():
 						unresolved_article_section_str="Unknown"
 					else:
-						if article_section_str == 'Brainteasers' or article_section_str == 'corretions & clarifications' or article_section_str == 'Books/Reviews' or article_section_str == 'Literary Review' or article_section_str == 'Reviews':
+						if article_section_str == 'Brainteasers' or article_section_str == 'corretions & clarifications' or article_section_str == 'Books/Reviews' or article_section_str == 'Literary Review' or article_section_str == 'Reviews' or article_section_str == 'Bombay Showcase':
 							continue
 						else:	
 							unresolved_article_section_str=article_section_str.title()
@@ -106,16 +104,22 @@ class NewsParser():
 				if article_title_str is None:
 					article_title_str=article_page_content.title.text
 					article_title_str=article_title_str.replace(" - The Hindu",'')
-					article_title_str=article_title_str.encode('utf-8')
-					article_title_str=str(article_title_str);			
-					article_title_str=unicode(str(article_title_str),"utf-8")
-					article_title_str=unicodedata.normalize('NFKD', article_title_str).encode('ascii','ignore')
+					if article_title_str=='The Sunday Crossword':
+						continue
+					else:
+						article_title_str=article_title_str.encode('utf-8')
+						article_title_str=str(article_title_str);			
+						article_title_str=unicode(str(article_title_str),"utf-8")
+						article_title_str=unicodedata.normalize('NFKD', article_title_str).encode('ascii','ignore')
 				else:
-					article_title_str=article_title_str.text.strip()
-					article_title_str=article_title_str.encode('utf-8')
-					article_title_str=str(article_title_str);			
-					article_title_str=unicode(str(article_title_str),"utf-8")
-					article_title_str=unicodedata.normalize('NFKD', article_title_str).encode('ascii','ignore')
+					if article_title_str=='The Sunday Crossword':
+						continue
+					else:
+						article_title_str=article_title_str.text.strip()
+						article_title_str=article_title_str.encode('utf-8')
+						article_title_str=str(article_title_str);			
+						article_title_str=unicode(str(article_title_str),"utf-8")
+						article_title_str=unicodedata.normalize('NFKD', article_title_str).encode('ascii','ignore')
 				article_location = article_page_content.find("span",  {'class':'blue-color ksl-time-stamp'}).text.strip()
 				article_location_str=article_location if article_location else "Unknown"
 				article_location_str=article_location_str.title().replace(":",'')
