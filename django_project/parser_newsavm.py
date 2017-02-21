@@ -35,7 +35,6 @@ class NewsParser():
 		article_local_file_path=self.get_article_local_file_path()
 	
 		for local_file_path in article_local_file_path:
-			print "local file path:",local_file_path
 			article_download_id=ArticleDownload.objects.get(article_download_local_file_path=local_file_path)
 			fk_article_downlaod_id_int=article_download_id.id
 		
@@ -45,8 +44,8 @@ class NewsParser():
 				article_div_tag=article_page_content.find_all("div",attrs={"id":re.compile('content\-body\-17088308\-[0-9]*')})	
 			
 			if article_div_tag==[]:
-				print "Article skipped because no body content" ,local_file_path
-				print "*******************************************************************************"
+				the_Hindu_log_file=open("/home/mis/Documents/Newspaper/parser_log.txt","a")
+				the_Hindu_log_file.write("\nArticle Skipped Parsing\t"+local_file_path+"\t\n")
 			else:
 				for div in article_div_tag:
 					for tag in div.find_all('a'):
@@ -55,6 +54,8 @@ class NewsParser():
 					links=BeautifulSoup(str(links)).get_text(' ',strip=True)
 					main_each_article_content=links
 					main_each_article_content=unicodedata.normalize('NFKD', main_each_article_content).encode('ascii','ignore')
+					print main_each_article_content
+					print '*******************************************************************'
 					
 				article_author = article_page_content.find("meta", {'name':'author'})
 				if article_author['content'] =="":
@@ -143,8 +144,8 @@ class NewsParser():
 				else:
 					article_location=article_location.text.strip()
 					
-				article_location_str=article_location_str.title().replace(":",'')
-				article_location_str=article_location_str.title().replace(",",'')
+				article_location_str=article_location.title().replace(":",'')
+				article_location_str=article_location.title().replace(",",'')
 				
 				# Saving unresolved news type in database using django models
 				fk_unresolved_news_type_id_int=0
@@ -169,9 +170,7 @@ class NewsParser():
 					unresolved_location_djangoobj=UnresolvedLocation(unresolved_location_name=article_location_str)
 					unresolved_location_djangoobj.save()
 					fk_unresolved_location_id_int=unresolved_location_djangoobj.id
-				
-				print fk_unresolved_location_id_int
-				print fk_unresolved_news_type_id_int
+					
 				# Saving article parsed in database using django models
 				fk_article_parsed_id_int=0
 				article_parsed_djangoobj=ArticleParsed(article_title=article_title_str,unresolved_news_type_id=fk_unresolved_news_type_id_int,
@@ -180,7 +179,7 @@ class NewsParser():
 				fk_article_parsed_id_int=article_parsed_djangoobj.id
 				
 				# Saving article content in database using django models
-				article_content_djangoobj=ArticleContent(article_parsed_id=fk_article_parsed_id_int,content=main_each_article_content[1:-1])
+				article_content_djangoobj=ArticleContent(article_parsed_id=fk_article_parsed_id_int,content=main_each_article_content[1:-1].replace('. ,','.').replace('. , , ','.'))
 				article_content_djangoobj.save()
 				fk_article_content_id_int=article_content_djangoobj.id
 				# Saving article author in database using django models
