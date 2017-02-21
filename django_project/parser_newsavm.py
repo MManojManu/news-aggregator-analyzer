@@ -58,7 +58,13 @@ class NewsParser():
 					
 				article_author = article_page_content.find("meta", {'name':'author'})
 				if article_author['content'] =="":
-					article_author_str='NA'
+					article_author = article_page_content.find("h4",  {'class':'home-content-name'})
+					if article_author is None:
+						article_author_str='NA'
+					else:
+						article_author=article_author.text.strip()	
+						article_author_list=article_author.split('|')
+						article_author_str=article_author_list[0]
 				else:
 					article_author_str=article_author['content']
 				
@@ -124,17 +130,18 @@ class NewsParser():
 						article_title_str=str(article_title_str);			
 						article_title_str=unicode(str(article_title_str),"utf-8")
 						article_title_str=unicodedata.normalize('NFKD', article_title_str).encode('ascii','ignore')
+						
 				article_location = article_page_content.find("span",  {'class':'blue-color ksl-time-stamp'})
 				if article_location is None:
 					article_location = article_page_content.find("h4",  {'class':'home-content-name'})
 					if article_location is None:
 						article_location_str=article_location if article_location else "Unknown"
 					else:
-						article_location=article_location.text.strip()
-						article_location_str=article_location if article_location else "Unknown"
+						article_location=article_location.text.strip()	
+						article_location_list=str(article_location).split('|')
+						article_location=article_location_list[1]
 				else:
 					article_location=article_location.text.strip()
-					article_location_str=article_location if article_location else "Unknown"
 					
 				article_location_str=article_location_str.title().replace(":",'')
 				article_location_str=article_location_str.title().replace(",",'')
