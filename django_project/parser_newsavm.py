@@ -64,7 +64,7 @@ class NewsParser():
 					temp_each_acrticle_content_list=main_each_article_content_str.split()
 					temp_each_acrticle_content_count_int=len(temp_each_acrticle_content_list)
 				
-				if temp_each_acrticle_content_count_int > 49:
+				if temp_each_acrticle_content_count_int > 49:					#Skips the article if the characters present in the article are less than 50 
 					#Parsing the author name from meta tag if exists or else from the h4. If both the places it does not exist them storing it has NA
 					temp_article_author_str = article_page_content.find("meta", {'name':'author'})
 					if temp_article_author_str['content'] =="":
