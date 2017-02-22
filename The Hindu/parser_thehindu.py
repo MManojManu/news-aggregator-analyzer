@@ -99,7 +99,7 @@ class NewsParser():
 						if len(article_section_str) >= 3:												
 							unresolved_article_section_str=''
 							#If the sections sport/other sports 
-							if article_section_str[1]=='Other' and article_section_str[2]=='Sports':
+							if article_section_str[1]=='Other':
 								unresolved_article_section_str=article_section_str[0].title()+"/"+article_section_str[1].title()+" "+article_section_str[2].title()
 							#if the Cities or states have still sub location then storing only the main locations
 							elif article_section_str[0]=='News' and article_section_str[1]=='Cities' or article_section_str[1]=='States':
