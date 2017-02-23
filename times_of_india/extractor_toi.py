@@ -1,5 +1,6 @@
 # imported files
 
+import config
 import socket
 from bs4 import BeautifulSoup
 import requests
@@ -137,6 +138,7 @@ proxy_index_int=-1  # variable is used to chane the ip
 counter_articles_int=0 # count the articles and change the proxy after specified hit
 
 # list of proxy servers
+proxy_server_list=config.proxy_server_list
 
 #conver date to datetime
 start_date_time = datetime.strptime("2016-1-1", "%Y-%m-%d")
@@ -144,7 +146,7 @@ end_date_time = datetime.strptime("2016-12-31", "%Y-%m-%d")
 cookies = cookielib.LWPCookieJar()
 
 # initialization  of proxy for the first time
-proxy = urllib2.ProxyHandler({'http': --------------------------})
+proxy = urllib2.ProxyHandler({'http': config.start_proxy_str})
 auth = urllib2.HTTPBasicAuthHandler()
 cookie_str=urllib2.HTTPCookieProcessor(cookies)
 opener = urllib2.build_opener(proxy, auth, urllib2.HTTPHandler,cookie_str)
