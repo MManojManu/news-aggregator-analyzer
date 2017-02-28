@@ -83,11 +83,12 @@ class NewsParser():
 					if article_section_str is None:														#If it is not available then check in meta tag
 						article_section_str=article_page_content.find("meta",  property="article:section")
 						article_section_str=article_section_str['content']
+						article_author_str=article_author_str.replace(u'\xa0', u' ')
 						if str(article_author_str[0]).lower() in str(article_section_str[0]).lower():	#If author name is section name then storing the section name has unknown
 							unresolved_article_section_str="Unknown"
 						else:
 							#If it is not author name then search if section is below mentioned names in if . If it belongs to them then skip the article because analysis cannot be made on those section
-							if article_section_str == 'Brainteasers' or article_section_str == 'corretions & clarifications' or article_section_str == 'Books/Reviews' or article_section_str == 'Literary Review' or article_section_str == 'Reviews' or article_section_str == 'Bombay Showcase':
+							if article_section_str == 'Brainteasers' or article_section_str == 'Corrections & Clarifications' or article_section_str == 'Books/Reviews' or article_section_str == 'Literary Review' or article_section_str == 'Reviews' or article_section_str == 'Bombay Showcase':
 								continue
 							else:	
 								unresolved_article_section_str=article_section_str.title()				#Store it in variable. Note: .title() is used to make the string captialized
@@ -162,7 +163,10 @@ class NewsParser():
 						else:
 							temp_article_location_str=temp_article_location_str.text.strip()	
 							article_location_list=str(temp_article_location_str).split('|')
-							temp_article_location_str=article_location_list[1]
+							try:
+								temp_article_location_str=article_location_list[1]
+							except IndexError:
+								temp_article_location_str=article_location_list[0]	
 					else:
 						temp_article_location_str=temp_article_location_str.text.strip()
 				
@@ -211,7 +215,7 @@ class NewsParser():
 					# Saving article author in database using django models
 					article_author_djangoobj=Author(article_parsed_id=fk_article_content_id_int,author_name=article_author_str)
 					article_author_djangoobj.save()
-				
+					
 					ArticleDownload.objects.filter(id=fk_article_downlaod_id_int).update(article_download_is_parsed=1)
 				else:
 					the_Hindu_log_file=open("/home/mis/Documents/Newspaper/parser_log.txt","a")
