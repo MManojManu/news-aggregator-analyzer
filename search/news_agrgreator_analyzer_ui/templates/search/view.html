@@ -11,7 +11,7 @@
     <p>{% ifnotequal details.2 'Unknown'%}{{details.2}} {{sp_seperator}} {% endifnotequal %}
          {% ifnotequal details.3 'Unknown'%} {{details.3}} {{sp_seperator}} {% endifnotequal %}
          {% ifnotequal details.4 'NA'%} {{details.4}} {{sp_seperator}} {% endifnotequal %}
-        {{details.5}} | {{details.6}}</p>
+        {{details.5|slice:":10"}} | {{details.6}}</p>
     <p>{{details.7}}</p>
     {% ifnotequal details.6 'The Hindu' %}
         <p>Courtesy: <a href="http://timesofindia.indiatimes.com" target="blank">{{details.6}}</a></p>
