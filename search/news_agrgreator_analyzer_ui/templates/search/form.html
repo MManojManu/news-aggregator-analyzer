@@ -44,7 +44,7 @@
                         {% autoescape off %} {{sphinx_detail.13}} {% endautoescape %}
                         {{sp_seperator}}
                     {% endifnotequal %}
-                    {% autoescape off %} {{sphinx_detail.14}} {% endautoescape %}
+                    {% autoescape off %} {{sphinx_detail.14|slice:":10"}} {% endautoescape %}
                     | {% autoescape off %} {{sphinx_detail.12}} {% endautoescape %}
                 </span>
             </div>
