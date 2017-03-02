@@ -73,11 +73,12 @@ class NewsParser():
 						if temp_article_author_str is None:
 							article_author_str='NA'
 						else:
+							temp_article_author_str=unidecode(temp_article_author_str)
 							temp_article_author_str=temp_article_author_str.text.strip()	
 							article_author_list=temp_article_author_str.split('|')
 							article_author_str=article_author_list[0]
 					else:
-						article_author_str=temp_article_author_str['content']
+						article_author_str=unidecode(temp_article_author_str['content'])
 				
 					#Parsing the article section from the webpage
 					article_section_str= article_page_content.find("ul",  {'class':'breadcrumb'}) 		#Finding the section in Ul tag
