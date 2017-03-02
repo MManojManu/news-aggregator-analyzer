@@ -8,7 +8,7 @@ import copy
 class SphinxConnectorCreator(object):
 
     def __init__(self):
-        self.sphinx_connector = Connector(host="127.0.0.1", port=9306, options={})
+        self.sphinx_connector = Connector(host="", port="", options={})
 
 
 class SphinxResult(object):

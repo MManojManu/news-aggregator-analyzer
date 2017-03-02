@@ -8,9 +8,9 @@
 {% for details in sphinx_details %}
 <div class="div-body">
     <p class="div-style-title">{{details.1}}</p>
-    <p>{% ifnotequal details.2 'Unknown'%}{{details.2}} {{sp_seperator}} {% endifnotequal %}
-         {% ifnotequal details.3 'Unknown'%} {{details.3}} {{sp_seperator}} {% endifnotequal %}
-         {% ifnotequal details.4 'NA'%} {{details.4}} {{sp_seperator}} {% endifnotequal %}
+    <p>{{details.2}} {{sp_seperator}}
+         {{details.3}} {{sp_seperator}}
+         {{details.4}} {{sp_seperator}}
         {{details.5|slice:":10"}} | {{details.6}}</p>
     <p>{{details.7}}</p>
     {% ifnotequal details.6 'The Hindu' %}
