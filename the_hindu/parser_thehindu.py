@@ -4,6 +4,7 @@ import httplib
 import sys
 import django
 import unicodedata
+from unidecode import unidecode
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_project.settings')
 django.setup()
 from newsdb.models import *
@@ -58,9 +59,9 @@ class NewsParser():
 					for tag in div.find_all('a'):								# Finding all the a tags and removing them
 						tag.decompose()
 					links_str = div.findAll('p')								#Finding all the p tags and storing in a string.
-					links_str=BeautifulSoup(str(links_str)).get_text(' ',strip=True)	#Striping asll the whitespaces from it
+					links_str=BeautifulSoup(str(links_str)).get_text(' ',strip=True)	#Striping all the whitespaces from it
 					main_each_article_content_str=links_str
-					main_each_article_content_str=unicodedata.normalize('NFKD', main_each_article_content_str).encode('ascii','ignore') #Converting the unicode characters to string
+					main_each_article_content_str=unidecode(main_each_article_content_str)
 					temp_each_acrticle_content_list=main_each_article_content_str.split()
 					temp_each_acrticle_content_count_int=len(temp_each_acrticle_content_list)
 				
@@ -72,11 +73,12 @@ class NewsParser():
 						if temp_article_author_str is None:
 							article_author_str='NA'
 						else:
+							temp_article_author_str=unidecode(temp_article_author_str)
 							temp_article_author_str=temp_article_author_str.text.strip()	
 							article_author_list=temp_article_author_str.split('|')
 							article_author_str=article_author_list[0]
 					else:
-						article_author_str=temp_article_author_str['content']
+						article_author_str=unidecode(temp_article_author_str['content'])
 				
 					#Parsing the article section from the webpage
 					article_section_str= article_page_content.find("ul",  {'class':'breadcrumb'}) 		#Finding the section in Ul tag
@@ -140,19 +142,14 @@ class NewsParser():
 						if article_title_str=='The Sunday Crossword':
 							continue
 						else:
-							article_title_str=article_title_str.encode('utf-8')						#Encoding the title with utf-8
-							article_title_str=str(article_title_str);			
-							article_title_str=unicode(str(article_title_str),"utf-8")				#Converting it to unicode 
-							article_title_str=unicodedata.normalize('NFKD', article_title_str).encode('ascii','ignore') #Ignoring the unicode characters
+							article_title_str=article_title_str.strip()
+							article_title_str=unidecode(article_title_str)
 					else:
 						if article_title_str=='The Sunday Crossword':
 							continue
 						else:
 							article_title_str=article_title_str.text.strip()
-							article_title_str=article_title_str.encode('utf-8')
-							article_title_str=str(article_title_str);			
-							article_title_str=unicode(str(article_title_str),"utf-8")
-							article_title_str=unicodedata.normalize('NFKD', article_title_str).encode('ascii','ignore')
+							article_title_str=unidecode(article_title_str)		
 				
 					#Parsing the location of the article from either span tag with class blue-color ksl-time-stamp or from h4 tag with class home-content-name	
 					temp_article_location_str = article_page_content.find("span",  {'class':'blue-color ksl-time-stamp'})
@@ -165,15 +162,20 @@ class NewsParser():
 							article_location_list=str(temp_article_location_str).split('|')
 							try:
 								temp_article_location_str=article_location_list[1]
+								temp_article_location_str=temp_article_location_str.strip()
 							except IndexError:
-								temp_article_location_str=article_location_list[0]	
+								temp_article_location_str=article_location_list[0]
+								temp_article_location_str=temp_article_location_str.strip()	
 					else:
-						temp_article_location_str=temp_article_location_str.text.strip()
+						if temp_article_location_str.text.strip()=='':
+							temp_article_location_str='Unknown'
+						else:
+							temp_article_location_str=temp_article_location_str.text.strip()
 				
 					#Replacing the characters : or , if exists in the location
-					article_location_str=temp_article_location_str.title().replace(":",'')
-					article_location_str=temp_article_location_str.title().replace(",",'')
-				
+					article_location_str=temp_article_location_str.title()
+					article_location_str=article_location_str.strip(':')
+					article_location_str=article_location_str.strip(',')
 					# Saving unresolved news type in database using django models
 					fk_unresolved_news_type_id_int=0
 					unresolved_news_type_id_int=0
