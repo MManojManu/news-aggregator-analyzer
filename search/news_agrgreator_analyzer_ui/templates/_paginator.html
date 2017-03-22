@@ -1,0 +1,35 @@
+{% spaceless %}
+<div class="dataTables_paginate paging_bootstrap_full_number">
+	<ul class="pagination pagination-centered">
+		{% if  page_obj.has_previous %}
+			<li class="prev {% if not page_obj.has_previous %} disabled {% endif %}"><a href="?page=1"><<</a></li>
+			<li class="prev {% if not page_obj.has_previous %} disabled {% endif %}"><a href="?page={{ page_obj.previous_page_number }}"><</a></li>
+		{% endif %}
+		{% if not in_leading_range %}
+			{% for num in pages_outside_trailing_range %}
+				<li class="page"><a href="?page={{num}}" >{{ num }}</a></li>
+			{% endfor %}
+			<li class="disabled"><a href="#">...</a></li>
+		{% endif %}
+		{% for num in page_numbers %}
+		  {% ifequal num page_obj.number %}
+			<li class="active" title="Current Page"> <a href="#">{{ num }}</a></li>
+		  {% else %}
+			<li class="page"><a href="?page={{ num }}" title="Page {{ num }}">{{ num }}</a></li>
+		  {% endifequal %}
+		{% endfor %}
+		
+		{% if not in_trailing_range %}
+			<li class="disabled"><a href="#">...</a></li>
+			{% for num in pages_outside_leading_range reversed %}
+				<li class="page"><a href="?page={{ num }}" >{{ num }}</a></li>
+			{% endfor %}
+		{% endif %}
+		
+		{% if  page_obj.has_next %}
+			<li class="{% if not page_obj.has_next %} disabled {% endif %}"><a href="?page={{ page_obj.next_page_number }}">></a></li>
+			<li class="{% if not page_obj.has_next %} disabled {% endif %}"><a href="?page={{ page_obj.paginator.num_pages }}">>></a></li>
+		{% endif %}
+	</ul>
+</div>
+{% endspaceless %}

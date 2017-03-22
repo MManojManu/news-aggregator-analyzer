@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block container %}
+{% load bootstrap3 %}
+<div>
+    <span class="other-heading">About Us</span>
+    <p class="other-page-size">We are the group of three people who has done this news aggregator and analyzer.
+        The news aggregator and analyzer was started in feb 2017 . This site has news from 2 news publisher ,
+        times of india and the hindu . It has news articles from 1st january 2016 to 31 december 2016.
+        The idea behind doing this was that It will allow users to do Full-Text Search through various
+        news articles aggregated from the times of india and the hindu . The users who are interested in
+        searching the news articles need not have to go to 2 websites they can view news on single platform
+        and compare the news and they can also further view news from the particular locations and category.</p>
+</div>
+<div class="btn-back-align">
+    <a href="{% url 'search:get_search' %}" class="btn btn-success ">Back</a>
+</div>
+
+{% endblock %}
