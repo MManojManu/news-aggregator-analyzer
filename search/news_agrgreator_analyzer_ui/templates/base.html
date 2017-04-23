@@ -32,6 +32,9 @@
       line-height: 1.42857143;
       color: #333;
 	}
+    mark {
+        background-color: yellow;
+    }
 	.starter-template {
 	  padding: 40px 15px;
 	  text-align: center;
@@ -69,6 +72,21 @@
         padding-left: 30px;
         margin: 20px 0;
         border-radius: 4px;
+    }
+    fieldset {
+        width:180px;
+        border:1px solid #999;
+        border-radius:8px;
+        margin-right:-10px;
+        box-shadow:0 0 10px #999;
+    }
+    legend {
+        background:#fff;
+        float:left;
+        margin-top:0px;
+    }
+    legend + * {
+        clear:both;
     }
     .facet-align{
         text-align: left;
@@ -125,6 +143,7 @@
     .bottom_ul li:after { content:" "; color:#FFF; margin-right:8px; margin-left:8px;}
     .bottom_ul li a { color:#FFF;  font-size:12px;}
 
+
     </style>
 </head>
 
@@ -160,9 +179,9 @@
         </div>
         <div class="col-md-6">
             <ul class="bottom_ul">
-                <li><a href="{% url 'search:get_privacy' %}">Privacy</a></li>
-                <li><a href="{% url 'search:get_about_us' %}">About us</a></li>
-                <li><a href="{% url 'search:get_contact_us' %}">Contact us</a></li>
+                <li><a href="{% url 'search:get_privacy' %}" target="_blank">Privacy</a></li>
+                <li><a href="{% url 'search:get_about_us' %}" target="_blank">About us</a></li>
+                <li><a href="{% url 'search:get_contact_us' %}" target="_blank">Contact us</a></li>
 
             </ul>
         </div>
@@ -178,6 +197,7 @@
         $('input[name="source[]"]').prop('checked', false);
         $('input[name="newstype[]"]').prop('checked', false);
     }
+
 
 </script>
 </body>

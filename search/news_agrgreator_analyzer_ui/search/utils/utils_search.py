@@ -8,15 +8,17 @@ import copy
 class SphinxConnectorCreator(object):
 
     def __init__(self):
-        self.sphinx_connector = Connector(host="", port="", options={})
+        self.sphinx_connector = Connector(host="", port=, options={})
 
 
 class SphinxResult(object):
 
     def __init__(self, index):
+
         self.__main_query_template = "SELECT {fields} FROM {index} {cond} {facets} {options}"
         self.__cond_query_template = " WHERE {where_con} "
-        self.__snippet_template = "SNIPPET({field}, '{key_word}',  'LIMIT={limit}') as {field}_snippet"
+        self.__snippet_template = "SNIPPET({field}, '{key_word}',  'LIMIT={limit}'," \
+                                  "'before_match=<mark>', 'after_match=</mark>', 'query_mode=1') as {field}_snippet"
         self.__facet_location_template = "AND {field} IN {options} "
         self.__facet_source_template = "AND {field} IN {options} "
         self.__facet_newstype_template = "AND {field} IN {options}"
@@ -45,6 +47,7 @@ class SphinxResult(object):
         self.__facet_source_list.extend(facet_source_list)
 
     def set_newstype_list(self, newstype_list):
+
         assert isinstance(newstype_list, list)
         self.__facet_news_type_list.extend(newstype_list)
 
@@ -163,12 +166,15 @@ class SphinxResult(object):
         query = self.__main_query_template.format(fields=fields, index=self.__index,
                                                   cond=self.__cond_query_template,
                                                   facets=self.__get_facet_query(), options=self.__options)
+
+        print (query)
         if has_meta:
             query += "; SHOW META;"
 
         return query
 
     def execute(self, is_ex_match=False, has_meta=True):
+
         obj_sphinx_connector = SphinxConnectorCreator()
         sphinx_con = obj_sphinx_connector.sphinx_connector.get_connection()
         sphinx_cursor = sphinx_con.cursor()

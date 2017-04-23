@@ -6,6 +6,7 @@
 <form method="GET" action="">
     <div class="col-sm-10">
         {% csrf_token %}
+
         {% bootstrap_form form layout='inline' %}
 
         {% with "|" as sp_seperator %}
@@ -25,10 +26,10 @@
             {% endwith %}
 
             <div class="clearfix"></div>
-
+            <br>
             {% for sphinx_detail in sphinx_details %}
             <div class="news-details-title">
-                <a href="{% url 'search:get_detailed_view' sphinx_detail.0 %}">
+                <a href="{% url 'search:get_detailed_view' sphinx_detail.0 %}" target="_blank">
                     {% autoescape off %} {{sphinx_detail.9}} {% endautoescape %} </a></div>
             <div class="news-details-content">
                 <span>
@@ -64,6 +65,8 @@
 
         {% buttons submit='Search' layout='inline'%}{% endbuttons %}
         <span> <button class="btn" type="button" onclick="resetFields()">Reset</button></span>
+        <br><br>
+
         <fieldset>
             <legend>Location</legend>
             <div class="control-group">
@@ -114,6 +117,7 @@
         </fieldset>
     </div>
 </form>
+
 
 <div class="clearfix"></div>
 <div class="clearfix"></div>

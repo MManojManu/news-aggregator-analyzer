@@ -17,7 +17,7 @@ def detailed_view(request, pk):
     template_name = 'search/view.html'
     obj_sphinx_result.set_field_list(["id", "article_title", "resolved_location_name",
                                       "resolved_news_type_name",  "author_name",
-                                      "published_date", "source_name", "content", ])
+                                      "published_date", "source_name", "content", "article_download_url"])
     obj_sphinx_result.get_exact_query(pk)
     content = ""
     search = ""

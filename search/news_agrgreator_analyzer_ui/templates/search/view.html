@@ -13,20 +13,16 @@
          {{details.4}} {{sp_seperator}}
         {{details.5|slice:":10"}} | {{details.6}}</p>
     <p>{{details.7}}</p>
-    {% ifnotequal details.6 'The Hindu' %}
-        <p>Courtesy: <a href="http://timesofindia.indiatimes.com" target="blank">{{details.6}}</a></p>
-    {% endifnotequal %}
-    {% ifnotequal details.6 'Times of India' %}
-        <p>Courtesy: <a href="http://www.thehindu.com" target="blank">{{details.6}}</a></p>
-    {% endifnotequal %}
+    <p>Courtesy: <a href="{{details.8}}" target="_blank">{{details.6}}</a></p>
+
 </div>
 {% endfor %}
 {% else %}
 <p><b>No records<b></b></p>
 {% endif %}
 {% endwith %}
-<div class="btn-back-align">
+<!--- <div class="btn-back-align">
     <a href="javascript:history.go(-1)" class="btn btn-success ">Back</a>
-</div>
+</div> -->
 {% endblock %}
 

@@ -5,7 +5,7 @@ from utils_sphinx_connector import Connector
 class FacetConnectorCreator(object):
 
     def __init__(self):
-        self.sphinx_connector = Connector(host="", port="", options={})
+        self.sphinx_connector = Connector(host="", port=, options={})
 
     def execute_facet(self, final_query):
         obj_sphinx_connector = FacetConnectorCreator()
