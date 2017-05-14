@@ -8,7 +8,7 @@ import re
 
 def __normalize_keyword(keyword):
 
-    return " ".join(re.findall("[a-zA-Z]+", keyword))
+    return " ".join(re.findall("[a-zA-Z-+*/]+", keyword))
 
 
 def detailed_view(request, pk):
