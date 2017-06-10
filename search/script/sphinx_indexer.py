@@ -6,7 +6,7 @@ import os
 class Process(object):
 
     def start(self):
-        sudoPassword = 'codephanther'
+        sudoPassword = ''
 	command = 'sudo service sphinxsearch stop'
 	os.system('echo %s|sudo -S %s' % (sudoPassword, command))
 	print('\nStopped the Server')
