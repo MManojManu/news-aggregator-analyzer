@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>News-Aggregator & Analyzer</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+    body {
+      background-color:   #d6eaf8;
+	  padding-top: 50px;
+	  font-family: Times new roman;
+      font-size: 14px;
+      line-height: 1.42857143;
+      color: #333;
+	}
+	.starter-template {
+	  padding: 40px 15px;
+	  text-align: center;
+	}
+	.from_data {
+		text-align: left;
+	}
+	.navbar-header {
+	  text-align: center;
+	}
+	.news-details{
+	    text-align: left;
+	}
+	 .news-details-content {
+	    text-align: justify;
+	 }
+	 .news-details-title {
+        text-transform: capitalize;
+        text-align:left;
+        margin-top: 15px;
+    }
+
+    .search-result {
+        text-transform: capitalize;
+        txt-align: right;
+        font-size:12px;
+        font-family: Monotype Corsiva;
+    }
+    .search-result-found {
+        txt-align: right;
+        font-weight: bold;
+    }
+    .pagination {
+        display: inline-block;
+        padding-left: 30px;
+        margin: 20px 0;
+        border-radius: 4px;
+    }
+    .facet-align{
+        text-align: left;
+    }
+    .no-result-found {
+        text-align: left;
+        color: red;
+        font-size:18px;
+    }
+    .div-style-title {
+        text-transform: capitalize;
+        font-weight: bold;
+        font-size: 18px;
+
+    }
+    .div-body {
+        font-family: 'times new roman';
+        font-size: 16px;
+        text-align: justify
+    }
+    label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 100;
+    }
+    .btn-back-align {
+        text-align: left
+    }
+    .control-group {
+        font-weight: normal;
+    }
+    .btn {
+        width: 100px;
+    }
+    .fieldset_align {
+        border: 1px solid black;
+    }
+    .other-heading {
+        font-weight: bold;
+        font-size:18px;
+    }
+    .other-page-size {
+        font-size:16px;
+        text-align: justify;
+    }
+    .copyright { min-height:40px; background-color:#000000;}
+    .copyright p { text-align:left; color:#FFF; padding:10px 0; margin-bottom:0px;}
+    .heading7 { font-size:21px; font-weight:700; color:#d9d6d6; margin-bottom:22px;}
+    .post p { font-size:12px; color:#FFF; line-height:20px;}
+    .post p span { display:block; color:#8f8f8f;}
+    .bottom_ul { list-style-type:none; float:right; margin-bottom:0px;}
+    .bottom_ul li { float:left; line-height:40px;}
+    .bottom_ul li:after { content:" "; color:#FFF; margin-right:8px; margin-left:8px;}
+    .bottom_ul li a { color:#FFF;  font-size:12px;}
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="col-md-12 navbar-header">
+                <font color="white" size="5px" align="center">
+                    News-Aggregator & Analyzer</font>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="starter-template">
+            {% block container %} test {% endblock %}
+        </div>
+    </div><!-- /.container -->
+
+</div>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<div class="copyright">
+    <div class="container">
+        <div class="col-md-6">
+            <p>© 2017 - All Rights with MVA</p>
+        </div>
+        <div class="col-md-6">
+            <ul class="bottom_ul">
+                <li><a href="{% url 'search:get_privacy' %}">Privacy</a></li>
+                <li><a href="{% url 'search:get_about_us' %}">About us</a></li>
+                <li><a href="{% url 'search:get_contact_us' %}">Contact us</a></li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+  $(function(){
+    $('form.uniForm').uniform();
+  });
+    function resetFields()
+    {
+        $('input[name="location[]"]').prop('checked', false);
+        $('input[name="source[]"]').prop('checked', false);
+        $('input[name="newstype[]"]').prop('checked', false);
+    }
+
+</script>
+</body>
+</html>
